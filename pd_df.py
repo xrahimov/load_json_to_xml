@@ -1,12 +1,11 @@
 import pandas as pd
 import json
-import pyodbc
 import xmltodict
 import base64
 from bs4 import BeautifulSoup
 
 # Read the data inside the xml file to a variable under the name  data
-with open("source.txt", "r") as f:
+with open("large_source.txt", "r") as f:
     original_file = f.read()
     f.close()
 
@@ -25,17 +24,19 @@ json_data = json.dumps(data_dict)
 
 # Convert to dataframe and export to xlsx file
 df_full = pd.json_normalize(data_dict["ClinicalDocument"])
-df_component = pd.json_normalize({}).reset_index()
-df_table = pd.json_normalize({}).reset_index()
+df_component = pd.json_normalize({})
+df_documentationOf_serviceEvent_performer = pd.json_normalize({})
 
-# try:
-#     df_component = pd.json_normalize(
-#         data_dict["ClinicalDocument"]["component"]["structuredBody"]["component"]
-#     )
-    
-# except:
-#     print("Component key does not exist in source file")
+try:
+    df_component = pd.json_normalize(
+        data_dict["ClinicalDocument"]["component"]["structuredBody"]["component"]
+    )
+    df_documentationOf_serviceEvent_performer = pd.json_normalize(
+        data_dict["ClinicalDocument"]["documentationOf"]["serviceEvent"]["performer"]
+    )
+except:
+    print("Key does not exist in source file")
 
 df_full.to_excel("full_data.xlsx")
 df_component.to_excel("component_data.xlsx")
-
+df_documentationOf_serviceEvent_performer.to_excel("documentationOf_performer.xlsx")
