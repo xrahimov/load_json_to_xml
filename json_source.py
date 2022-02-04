@@ -28,25 +28,39 @@ columns = []
 rows = []
 
 
-def get_nested_value(data):
-    for key, value in data.items():
-        # print(str(key) + "->" + str(value))
+# def traverse(node, path="", stack=None):
+#     if stack is None:
+#         stack = [node]
+#     else:
+#         stack.push(self)
+#     if isinstance(node, dict):
+#         for key in node:
+#             traverse(node[key], path + "/" + key, stack)
+#     elif isinstance(node, list):
+#         for elem in node:
+#             traverse(elem, path + "/element", stack)
+#     stack.pop()
 
-        columns.append(str(key))
-        columns.append(str(value))
 
-        if type(value) == type(dict()):
-            get_nested_value(value)
-        elif type(value) == type(list()):
-            for val in value:
-                if type(val) == type(str()):
-                    pass
-                elif type(val) == type(list()):
-                    pass
-                else:
-                    get_nested_value(val)
-        print(columns)
-        print(rows)
+# def get_nested_value(data):
+#     for key, value in data.items():
+#         # print(str(key) + "->" + str(value))
+
+#         columns.append(str(key))
+#         columns.append(str(value))
+
+#         if type(value) == type(dict()):
+#             get_nested_value(value)
+#         elif type(value) == type(list()):
+#             for val in value:
+#                 if type(val) == type(str()):
+#                     pass
+#                 elif type(val) == type(list()):
+#                     pass
+#                 else:
+#                     get_nested_value(val)
+#         print(columns)
+#         print(rows)
 
 
 column = ""
@@ -61,9 +75,9 @@ def json_extract(obj, key):
         global column
         if isinstance(obj, dict):
             for k, v in obj.items():
+                column += k.capitalize()
                 if isinstance(v, (dict, list)):
                     extract(v, arr, key)
-                    column += k.capitalize()
                 elif k == key:
                     columns.append(column)
                     column = ""

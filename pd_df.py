@@ -16,6 +16,9 @@ bs_src = BeautifulSoup(original_file[1:-1], "xml")
 body_encoded = bs_src.find("Body").get_text()
 body_decoded = base64.b64decode(body_encoded)
 
+# with open("xml.xml", "wb") as x:
+#     x.write(body_decoded)
+#     x.close()
 # Convert xml file to dict
 data_dict = xmltodict.parse(body_decoded)
 
