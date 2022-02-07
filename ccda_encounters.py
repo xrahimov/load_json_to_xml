@@ -20,13 +20,13 @@ parent = body_decoded
 
 result_dict = {}
 tables = [
-    # ["medications", "History of Medication Use"],
-    # ["procedures", "History of Procedures"],
-    # ["encounters", "History of Encounters"],
-    # ["allergies", "Allergies, Adverse Reactions, Alerts"],
+    ["medications", "History of Medication Use"],
+    ["procedures", "History of Procedures"],
+    ["encounters", "History of Encounters"],
+    ["allergies", "Allergies, Adverse Reactions, Alerts"],
     ["immunizations", "History of Immunizations"],
-    # ["vital_signs", "Vital Signs"],
-    # ["payers", "Payers"],
+    ["vital_signs", "Vital Signs"],
+    ["payers", "Payers"],
 ]
 
 
@@ -40,8 +40,11 @@ def retrieve_data_from_table(displayName):
         ):
             body = el.find("table")
             break
-    if body == None or body.replace(" ", ""):
+    if body == None:
         return -1
+    if body == "":
+        return -1
+
     for th in body.find("thead").find("tr").find_all("th"):
         obj["columns"].append(th.get_text())
 
